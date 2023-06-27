@@ -25,12 +25,15 @@ public class ProfileService {
 
     public UserProfile createUserProfile(String email) {
         AppUser appUser=appUserRepository.findByEmail(email).orElseThrow(()->new RuntimeException("User not found"));
-        UserProfile userProfile = new UserProfile(appUser.getEmail(), appUser.getFirstName(), appUser.getLastName(), "",null,"","","");
+        UserProfile userProfile = new UserProfile(appUser.getId(),appUser.getEmail(), appUser.getFirstName(),
+                appUser.getLastName(), "",null,"","","",null,null,"",false,null);
         profileRepo.save(userProfile);
         return userProfile;
     }
 
-    public UserProfile getProfile(String email) {
-        return profileRepo.findByEmail(email).orElseThrow(()->new RuntimeException("User not found"));
+    public UserProfile getProfile(Long Id) {
+        return profileRepo.findById(Id).orElseThrow(()->new RuntimeException("User not found"));
     }
+
+
 }
