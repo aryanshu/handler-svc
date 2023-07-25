@@ -14,7 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/profile")
+@RequestMapping("api/v1/profile")
 @AllArgsConstructor
 public class ProfileController {
 
@@ -26,23 +26,21 @@ public class ProfileController {
     private final DataGenerator dataGenerator;
 
     private static Logger logger = LoggerFactory.getLogger(ProfileController.class);
-    @PostMapping("/")
+    @PostMapping
     ResponseEntity<UserProfile> postDetails(@RequestBody MultiValueMap<String, String> formData){
-        // Adding temp code for saving profile
-        UserProfile userProfile1 = profileService.createUserProfile(formData.getFirst("email"));
 
         UserProfile userProfile = profileValidator.validate(formData);
         logger.debug(String.format("{user: }",userProfile.getEmail()));
 
-        String message = profileService.handleProfileRequest(userProfile);
+        profileService.handleProfileRequest(userProfile);
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
 
     }
 
-    @GetMapping("/")
+    @GetMapping
     ResponseEntity<UserProfile> getDetails(@RequestParam(required = true) Long Id){
         UserProfile userProfile = profileService.getProfile(Id);
-        dataGenerator.Data();
+//        dataGenerator.Data();
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
 
     }
